@@ -3,7 +3,7 @@ import java.time.format.DateTimeFormatter;
 import java.util.Scanner;
 import java.time.LocalDate;
 
-class userMethods {
+class UserMethods {
 
     static void createGuestBook() {
         GuestBook guestBook = new GuestBook();
