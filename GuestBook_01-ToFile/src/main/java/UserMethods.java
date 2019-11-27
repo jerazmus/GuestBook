@@ -7,7 +7,7 @@ class UserMethods {
 
     static void createGuestBook() {
         GuestBook guestBook = new GuestBook();
-        File file = new File("GuestBook.txt");
+        File file = new File("./GuestBook_01-ToFile/GuestBook.txt");
         try {
             Scanner scanner = new Scanner(file);
             while (scanner.hasNextLine()) {
@@ -61,7 +61,7 @@ class UserMethods {
         Note note = new Note(currentDate, name, message);
         guestBook.add(note);
 
-        try (BufferedWriter bw = new BufferedWriter(new FileWriter("GuestBook.txt", true))) {
+        try (BufferedWriter bw = new BufferedWriter(new FileWriter("./GuestBook_01-ToFile/GuestBook.txt", true))) {
             bw.write(currentDate);
             bw.newLine();
             bw.write(name);
