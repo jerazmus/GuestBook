@@ -3,13 +3,12 @@ import java.time.format.DateTimeFormatter;
 import java.util.Scanner;
 import java.time.LocalDate;
 
-class UserMethods {
+class NoteDAO {
 
     static void createGuestBook() {
         GuestBook guestBook = new GuestBook();
         File file = new File("./GuestBook_01-ToFile/GuestBook.txt");
-        try {
-            Scanner scanner = new Scanner(file);
+        try (Scanner scanner = new Scanner(file)) {
             while (scanner.hasNextLine()) {
                 String currentDate = scanner.nextLine();
                 String name = scanner.nextLine();
@@ -31,16 +30,21 @@ class UserMethods {
         System.out.println("[3] Exit.");
 
         int choice = scanner.nextInt();
-        if (choice == 1) {
-            showGuestBook(guestBook);
-        } else if (choice == 2) {
-            addGuestNote(guestBook);
-        } else if (choice == 3) {
-            System.exit(0);
-        } else {
-            System.out.println("Wrong input.");
-            mainInterface(guestBook);
+        switch (choice) {
+            case 1:
+                showGuestBook(guestBook);
+                mainInterface(guestBook);
+            case 2:
+                addGuestNote(guestBook);
+                mainInterface(guestBook);
+
+            case 3:
+                System.exit(0);
+            default:
+                System.out.println("Wrong input.");
+                mainInterface(guestBook);
         }
+        scanner.close();
     }
 
     private static void showGuestBook(GuestBook guestBook) {
@@ -57,6 +61,7 @@ class UserMethods {
         String name = scanner.nextLine();
         System.out.println("Your note:");
         String message = scanner.nextLine();
+        scanner.close();
 
         Note note = new Note(currentDate, name, message);
         guestBook.add(note);
