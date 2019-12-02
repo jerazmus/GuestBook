@@ -1,6 +1,5 @@
-
-# Default ignored files
 /workspace.xml
-/.idea
+.idea
 *.iml
+GuestBook_01-ToFile.iml
 /target
