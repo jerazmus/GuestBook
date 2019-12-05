@@ -1,12 +1,12 @@
 import com.opencsv.CSVWriter;
+import com.opencsv.bean.CsvToBean;
+import com.opencsv.bean.CsvToBeanBuilder;
 import com.opencsv.bean.StatefulBeanToCsv;
 import com.opencsv.bean.StatefulBeanToCsvBuilder;
 import com.opencsv.exceptions.CsvDataTypeMismatchException;
 import com.opencsv.exceptions.CsvRequiredFieldEmptyException;
 
-import java.io.FileWriter;
-import java.io.IOException;
-import java.io.Writer;
+import java.io.*;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
@@ -17,7 +17,20 @@ public class NoteDAO {
 
     public static ArrayList<Note> createGuestBook() {
         ArrayList<Note> guestBook = new ArrayList<>();
-
+        try {
+            FileReader reader = new FileReader("./GuestBook_02-ToCSV/GuestBook.csv");
+            CsvToBean<Note> csvToBean = new CsvToBeanBuilder<Note>(reader)
+                    .withType(Note.class)
+                    .withSeparator(';')
+                    .build();
+            List<Note> notes = csvToBean.parse();
+            guestBook.addAll(notes);
+            reader.close();
+        } catch (FileNotFoundException e) {
+            System.out.println("File doesn't exist in provided path.");
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
         return guestBook;
     }
 
@@ -56,7 +69,7 @@ public class NoteDAO {
         guestBook.add(note);
 
         try {
-            Writer writer = new FileWriter("./GuestBook_02-ToCSV/GuestBook.csv");
+            Writer writer = new FileWriter("./GuestBook_02-ToCSV/GuestBook.csv", true);
 
             StatefulBeanToCsv<Note> beanToCsv = new StatefulBeanToCsvBuilder<Note>(writer)
                     .withSeparator(';')
@@ -72,9 +85,7 @@ public class NoteDAO {
     }
 
     public static void showGuestBook(ArrayList<Note> guestBook) {
-        for(Note note : guestBook) {
-            System.out.println(note);
-        }
+        guestBook.forEach(System.out::println);
         showMenu(guestBook);
     }
 }

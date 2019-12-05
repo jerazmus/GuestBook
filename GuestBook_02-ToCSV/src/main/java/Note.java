@@ -12,6 +12,8 @@ public class Note {
     @CsvBindByPosition(position = 2)
     private String note;
 
+    public Note() {};
+
     public Note(LocalDate noteDate, String name, String note) {
         this.noteDate = noteDate;
         this.name = name;
