@@ -18,7 +18,7 @@ public class NoteDAO {
                 guestBook.add(note);
             }
         } catch (FileNotFoundException e) {
-            System.out.println("Files doesn't exist in provided path.");
+            System.out.println("File doesn't exist in provided path.");
         }
         return guestBook;
     }
