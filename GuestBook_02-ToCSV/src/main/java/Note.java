@@ -1,9 +1,15 @@
+import com.opencsv.bean.CsvBindByPosition;
+import com.opencsv.bean.CsvCustomBindByPosition;
+
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 
 public class Note {
+    @CsvCustomBindByPosition(position = 0, converter = LocalDateConverter.class)
     private LocalDate noteDate;
+    @CsvBindByPosition(position = 1)
     private String name;
+    @CsvBindByPosition(position = 2)
     private String note;
 
     public Note(LocalDate noteDate, String name, String note) {
@@ -24,5 +30,29 @@ public class Note {
         return formatter.format(noteDate)+"\n"+
                 name+"\n"+
                 note+"\n";
+    }
+
+    public LocalDate getNoteDate() {
+        return noteDate;
+    }
+
+    public void setNoteDate(LocalDate noteDate) {
+        this.noteDate = noteDate;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public String getNote() {
+        return note;
+    }
+
+    public void setNote(String note) {
+        this.note = note;
     }
 }

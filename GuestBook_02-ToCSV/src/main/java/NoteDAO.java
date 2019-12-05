@@ -1,6 +1,12 @@
 import com.opencsv.CSVWriter;
+import com.opencsv.bean.StatefulBeanToCsv;
+import com.opencsv.bean.StatefulBeanToCsvBuilder;
+import com.opencsv.exceptions.CsvDataTypeMismatchException;
+import com.opencsv.exceptions.CsvRequiredFieldEmptyException;
+
 import java.io.FileWriter;
 import java.io.IOException;
+import java.io.Writer;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
@@ -10,7 +16,9 @@ public class NoteDAO {
     public static Scanner scanner = new Scanner(System.in);
 
     public static ArrayList<Note> createGuestBook() {
-        return new ArrayList<>();
+        ArrayList<Note> guestBook = new ArrayList<>();
+
+        return guestBook;
     }
 
     public static void showMenu(ArrayList<Note> guestBook) {
@@ -48,15 +56,16 @@ public class NoteDAO {
         guestBook.add(note);
 
         try {
-            CSVWriter csvWriter = new CSVWriter(new FileWriter("./GuestBook_02-ToCSV/GuestBook.csv"));
-            List<String[]> rows = new ArrayList<>();
+            Writer writer = new FileWriter("./GuestBook_02-ToCSV/GuestBook.csv");
 
-            String[] row  = {LocalDate.now().toString(), name, message};
-            rows.add(row);
+            StatefulBeanToCsv<Note> beanToCsv = new StatefulBeanToCsvBuilder<Note>(writer)
+                    .withSeparator(';')
+                    .withLineEnd(CSVWriter.DEFAULT_LINE_END)
+                    .build();
 
-            csvWriter.writeAll(rows);
-            csvWriter.close();
-        } catch (IOException e) {
+            beanToCsv.write(new Note(LocalDate.now(), name, message));
+            writer.close();
+        } catch (IOException | CsvRequiredFieldEmptyException | CsvDataTypeMismatchException e) {
             e.printStackTrace();
         }
         showMenu(guestBook);
@@ -66,5 +75,6 @@ public class NoteDAO {
         for(Note note : guestBook) {
             System.out.println(note);
         }
+        showMenu(guestBook);
     }
 }
