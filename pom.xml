@@ -12,6 +12,7 @@
         <module>GuestBook_01-ToFile</module>
         <module>GuestBook_02-ToCSV</module>
         <module>GuestBook_03-ToJSON</module>
+        <module>GuestBook_04-ToXML</module>
     </modules>
 
 

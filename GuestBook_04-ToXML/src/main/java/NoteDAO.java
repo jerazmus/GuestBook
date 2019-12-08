@@ -1,0 +1,67 @@
+
+import java.io.*;
+import java.util.ArrayList;
+import java.util.Scanner;
+
+public class NoteDAO {
+    public static final String filePath = "./GuestBook_04-ToXML/GuestBook.xml";
+    public static Scanner scanner = new Scanner(System.in);
+
+    public static ArrayList<Note> createGuestBook() {
+        ArrayList<Note> guestBook = new ArrayList<>();
+        File file = new File(filePath);
+        try () {
+        } catch (FileNotFoundException e) {
+            System.out.println("File doesn't exist in provided path.");
+        }
+        return guestBook;
+    }
+
+    public static void showMenu(ArrayList<Note> guestBook) {
+        System.out.println("[1] Show guest book.");
+        System.out.println("[2] Add guest note.");
+        System.out.println("[3] Exit.");
+        optionMenu(guestBook);
+    }
+
+    public static void optionMenu(ArrayList<Note> guestBook) {
+        String choice = scanner.nextLine();
+        switch (choice) {
+            case "1":
+                showGuestBook(guestBook);
+                break;
+            case "2":
+                addGuestNote(guestBook);
+                break;
+            case "3":
+                System.exit(0);
+            default:
+                System.out.println("Wrong input.");
+                showMenu(guestBook);
+                break;
+        }
+    }
+
+    public static void addGuestNote(ArrayList<Note> guestBook) {
+        System.out.println("Your name:");
+        String name = scanner.nextLine();
+        System.out.println("Your note:");
+        String message = scanner.nextLine();
+        Note note = new Note(name, message);
+
+        guestBook.add(note);
+
+        try (BufferedWriter bw = new BufferedWriter(new FileWriter(filePath, true))) {
+            bw.write();
+            bw.newLine();
+        } catch (IOException e) {
+            System.out.println("Problem occurred while trying to append to file.");
+        }
+        showMenu(guestBook);
+    }
+
+    public static void showGuestBook(ArrayList<Note> guestBook) {
+        guestBook.forEach(System.out::println);
+        showMenu(guestBook);
+    }
+}
