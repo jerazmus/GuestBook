@@ -14,11 +14,12 @@ import java.util.Scanner;
 
 public class NoteDAO {
     public static Scanner scanner = new Scanner(System.in);
+    public static final String filePath = "./GuestBook_02-ToCSV/GuestBook.csv";
 
     public static ArrayList<Note> createGuestBook() {
         ArrayList<Note> guestBook = new ArrayList<>();
         try {
-            FileReader reader = new FileReader("./GuestBook_02-ToCSV/GuestBook.csv");
+            FileReader reader = new FileReader(filePath);
             CsvToBean<Note> csvToBean = new CsvToBeanBuilder<Note>(reader)
                     .withType(Note.class)
                     .withSeparator(';')
@@ -29,7 +30,7 @@ public class NoteDAO {
         } catch (FileNotFoundException e) {
             System.out.println("File doesn't exist in provided path.");
         } catch (IOException e) {
-            e.printStackTrace();
+            System.out.println("Problem occurred while trying reading the file.");
         }
         return guestBook;
     }
@@ -69,7 +70,7 @@ public class NoteDAO {
         guestBook.add(note);
 
         try {
-            Writer writer = new FileWriter("./GuestBook_02-ToCSV/GuestBook.csv", true);
+            Writer writer = new FileWriter(filePath, true);
 
             StatefulBeanToCsv<Note> beanToCsv = new StatefulBeanToCsvBuilder<Note>(writer)
                     .withSeparator(';')
@@ -78,8 +79,12 @@ public class NoteDAO {
 
             beanToCsv.write(new Note(LocalDate.now(), name, message));
             writer.close();
-        } catch (IOException | CsvRequiredFieldEmptyException | CsvDataTypeMismatchException e) {
-            e.printStackTrace();
+        } catch (CsvRequiredFieldEmptyException e) {
+            System.out.println("Required field is empty in CSV file.");
+        } catch (CsvDataTypeMismatchException e) {
+            System.out.println("Provided string value for conversion cannot be converted to the required type of the destination field.");
+        } catch (IOException e) {
+            System.out.println("Problem occurred while trying to append to file.");
         }
         showMenu(guestBook);
     }
