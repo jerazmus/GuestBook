@@ -5,16 +5,17 @@ import java.util.ArrayList;
 import java.util.Scanner;
 
 public class NoteDAO {
+    public static final String filePath = "./GuestBook_03-ToJSON/GuestBook.json";
     public static Scanner scanner = new Scanner(System.in);
 
     public static ArrayList<Note> createGuestBook() {
         ArrayList<Note> guestBook = new ArrayList<>();
-        File file = new File("./GuestBook_03-ToJSON/GuestBook.json");
+        File file = new File(filePath);
         Jsonb jsonb = JsonbBuilder.create();
         try (Scanner scanner = new Scanner(file)) {
             while (scanner.hasNextLine()) {
-                String fromJSON = scanner.nextLine();
-                Note note = jsonb.fromJson(fromJSON, Note.class);
+                String jsonFormatObject = scanner.nextLine();
+                Note note = jsonb.fromJson(jsonFormatObject, Note.class);
                 guestBook.add(note);
             }
         } catch (FileNotFoundException e) {
@@ -59,7 +60,7 @@ public class NoteDAO {
         Jsonb jsonb = JsonbBuilder.create();
         String noteJSON = jsonb.toJson(note);
 
-        try (BufferedWriter bw = new BufferedWriter(new FileWriter("./GuestBook_03-ToJSON/GuestBook.json", true))) {
+        try (BufferedWriter bw = new BufferedWriter(new FileWriter(filePath, true))) {
             bw.write(noteJSON);
             bw.newLine();
         } catch (IOException e) {
