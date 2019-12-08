@@ -1,12 +1,20 @@
+import javax.xml.bind.annotation.XmlAccessorType;
+import javax.xml.bind.annotation.XmlRootElement;
+import javax.xml.bind.annotation.XmlTransient;
+import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 
+@XmlRootElement
+@XmlAccessorType()
 public class Note {
+
+    @XmlTransient
     private LocalDate noteDate;
     private String name;
     private String note;
 
-    public Note() {};
+    public Note() {}
 
     public Note(LocalDate noteDate, String name, String note) {
         this.noteDate = noteDate;
@@ -27,7 +35,7 @@ public class Note {
                 name+"\n"+
                 note+"\n";
     }
-
+    @XmlJavaTypeAdapter(value = LocalDateAdapter.class)
     public LocalDate getNoteDate() {
         return noteDate;
     }
