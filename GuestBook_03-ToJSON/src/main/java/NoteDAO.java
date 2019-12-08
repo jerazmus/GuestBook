@@ -64,7 +64,7 @@ public class NoteDAO {
             bw.write(noteJSON);
             bw.newLine();
         } catch (IOException e) {
-            e.printStackTrace();
+            System.out.println("Problem occurred while trying to append to file.");
         }
         showMenu(guestBook);
     }
