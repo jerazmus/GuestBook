@@ -6,12 +6,12 @@ import java.io.*;
 import java.time.LocalDate;
 import java.util.Scanner;
 
-public class NoteDAO {
-    public static final String filePath = "./GuestBook_04-ToXML/GuestBook.xml";
+public class GuestBookController {
+    public static final String FILEPATH = "./GuestBook_04-ToXML/GuestBook.xml";
     public static Scanner scanner = new Scanner(System.in);
 
     public static GuestBook createGuestBook() {
-        File file = new File(filePath);
+        File file = new File(FILEPATH);
         try {
             JAXBContext jaxbContext = JAXBContext.newInstance(GuestBook.class);
             Unmarshaller jaxbUnmarshaller = jaxbContext.createUnmarshaller();
@@ -60,7 +60,7 @@ public class NoteDAO {
             JAXBContext jaxbContext = JAXBContext.newInstance(GuestBook.class);
             Marshaller jaxbMarshaller = jaxbContext.createMarshaller();
             jaxbMarshaller.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, Boolean.TRUE);
-            jaxbMarshaller.marshal(guestBook, new File(filePath));
+            jaxbMarshaller.marshal(guestBook, new File(FILEPATH));
         } catch (JAXBException e) {
             System.out.println("Problem occurred while trying to append to file.");
         }
