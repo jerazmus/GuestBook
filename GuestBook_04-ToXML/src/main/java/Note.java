@@ -1,17 +1,16 @@
-import javax.xml.bind.annotation.XmlAccessorType;
-import javax.xml.bind.annotation.XmlRootElement;
-import javax.xml.bind.annotation.XmlTransient;
+import javax.xml.bind.annotation.*;
 import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 
-@XmlRootElement
-@XmlAccessorType()
+@XmlRootElement(name = "note")
+@XmlAccessorType(XmlAccessType.FIELD)
 public class Note {
 
     @XmlTransient
     private LocalDate noteDate;
     private String name;
+    @XmlElement(name = "message")
     private String note;
 
     public Note() {}
