@@ -10,18 +10,6 @@ public class GuestBookController {
     public static final String FILEPATH = "./GuestBook_04-ToXML/GuestBook.xml";
     public static Scanner scanner = new Scanner(System.in);
 
-    public static GuestBook createGuestBook() {
-        File file = new File(FILEPATH);
-        try {
-            JAXBContext jaxbContext = JAXBContext.newInstance(GuestBook.class);
-            Unmarshaller jaxbUnmarshaller = jaxbContext.createUnmarshaller();
-            return (GuestBook) jaxbUnmarshaller.unmarshal(file);
-        } catch (JAXBException e) {
-            System.out.println("Problem occurred while trying to read the file.");
-        }
-        return new GuestBook();
-    }
-
     public static void showMenu(GuestBook guestBook) {
         System.out.println("[1] Show guest book.");
         System.out.println("[2] Add guest note.");
@@ -47,6 +35,23 @@ public class GuestBookController {
         }
     }
 
+    public static void showGuestBook(GuestBook guestBook) {
+        guestBook.show();
+        showMenu(guestBook);
+    }
+
+    public static GuestBook createGuestBook() {
+        File file = new File(FILEPATH);
+        try {
+            JAXBContext jaxbContext = JAXBContext.newInstance(GuestBook.class);
+            Unmarshaller jaxbUnmarshaller = jaxbContext.createUnmarshaller();
+            return (GuestBook) jaxbUnmarshaller.unmarshal(file);
+        } catch (JAXBException e) {
+            System.out.println("Problem occurred while trying to read the file.");
+        }
+        return new GuestBook();
+    }
+
     public static void addGuestNote(GuestBook guestBook) {
         System.out.println("Your name:");
         String name = scanner.nextLine();
@@ -64,11 +69,6 @@ public class GuestBookController {
         } catch (JAXBException e) {
             System.out.println("Problem occurred while trying to append to file.");
         }
-        showMenu(guestBook);
-    }
-
-    public static void showGuestBook(GuestBook guestBook) {
-        guestBook.show();
         showMenu(guestBook);
     }
 }
