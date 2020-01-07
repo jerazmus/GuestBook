@@ -7,7 +7,7 @@ import java.time.format.DateTimeFormatter;
 public class Note {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "noteID", unique = true)
     private int id;
     @Column(name = "date", nullable = false)

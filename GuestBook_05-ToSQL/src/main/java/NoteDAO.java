@@ -7,7 +7,7 @@ import java.util.Scanner;
 
 public class NoteDAO {
     public static Scanner scanner = new Scanner(System.in);
-    private static final EntityManagerFactory ENTITY_MANAGER_FACTORY = Persistence.createEntityManagerFactory("tosql");
+    private static final EntityManagerFactory ENTITY_MANAGER_FACTORY = Persistence.createEntityManagerFactory("Note");
 
     public static void showMenu(ArrayList<Note> guestBook) {
         System.out.println("[1] Show guest book.");
